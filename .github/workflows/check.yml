@@ -1,38 +1,28 @@
 name: Example Workflow
-# on – определяет события, которые запускают воркфлоу
-on: push
-jobs:
-  # build – произвольно выбранное имя задания
-  # их может быть больше одного
-  build:
-    # операционная система для работы воркфлоу
-    runs-on: ubuntu-latest
-    steps: # список шагов, которые надо выполнить
-      # экшен — выполняет какую-то задачу
-      # checkout — клонирует репозиторий
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-      # run – произвольная bash-команда
-      # ls -la выведет содержимое текущего репозитория
-      - run: make setup
-      - run: make test
-      - run: make lint
 on:
+  push: {}
   workflow_dispatch:
     inputs:
       who-to-greet:
         description: Who to greet in the log
         required: true
-        default: 'World'
+        default: "World"
         type: string
+
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: make setup
+      - run: make test
+      - run: make lint
+
   say-hello:
     name: Say Hello
     runs-on: ubuntu-latest
     steps:
-      # Change @main to a specific commit SHA or version tag, e.g.:
-      # actions/hello-world-javascript-action@e76147da8e5c81eaf017dede5645551d4b94427b
-      # actions/hello-world-javascript-action@v1.2.3
       - name: Print to Log
         id: print-to-log
         uses: actions/hello-world-javascript-action@main
