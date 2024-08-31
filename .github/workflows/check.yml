@@ -25,6 +25,7 @@ on:
         required: true
         default: 'World'
         type: string
+jobs:
   say-hello:
     name: Say Hello
     runs-on: ubuntu-latest
